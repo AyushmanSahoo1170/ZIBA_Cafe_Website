@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIBA Cafe | Kandoli, Dehradun</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-error": "#ffffff","on-tertiary-container": "#c0b095","inverse-surface": "#30312e",
+        "primary-fixed": "#c8eccb","surface-bright": "#fbf9f4","background": "#fbf9f4",
+        "on-secondary-fixed-variant": "#653d1e","on-primary-container": "#98ba9c",
+        "on-error-container": "#93000a","primary": "#17341e","on-surface-variant": "#424842",
+        "tertiary-fixed": "#f2e0c3","on-secondary-container": "#794e2e",
+        "secondary-fixed-dim": "#f4bb92","surface-dim": "#dbdad5","outline": "#727971",
+        "on-tertiary-fixed": "#231a08","error": "#ba1a1a","tertiary-fixed-dim": "#d5c5a8",
+        "on-surface": "#1b1c19","error-container": "#ffdad6","primary-fixed-dim": "#adcfaf",
+        "on-background": "#1b1c19","secondary-container": "#fdc39a",
+        "on-primary-fixed-variant": "#2f4d35","surface-container-highest": "#e4e2dd",
+        "surface": "#fbf9f4","secondary": "#805533","on-primary-fixed": "#03210d",
+        "outline-variant": "#c2c8bf","surface-container": "#f0eee9",
+        "surface-container-low": "#f5f3ee","on-tertiary-fixed-variant": "#504530",
+        "surface-container-high": "#eae8e3","surface-container-lowest": "#ffffff",
+        "inverse-on-surface": "#f2f1ec","on-primary": "#ffffff","on-secondary-fixed": "#301400",
+        "on-secondary": "#ffffff","on-tertiary": "#ffffff","secondary-fixed": "#ffdcc5",
+        "inverse-primary": "#adcfaf","primary-container": "#2d4b33","surface-tint": "#47664c",
+        "tertiary": "#372d19","tertiary-container": "#4e432e","surface-variant": "#e4e2dd"
+      },
+      borderRadius: {"DEFAULT": "0.125rem","lg": "0.25rem","xl": "0.5rem","full": "0.75rem"},
+      fontFamily: {"headline": ["Noto Serif"],"body": ["Manrope"],"label": ["Manrope"]}
+    }
+  }
+}
+</script>
+<style>
+  body { font-family: 'Manrope', sans-serif; background-color: #fbf9f4; color: #1b1c19; scroll-behavior: smooth; }
+  h1, h2, h3, .serif-font, .serif-display, .font-headline { font-family: 'Noto Serif', serif; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .page { display: none; opacity: 0; }
+  .page.active { display: block; animation: fadeInPage 0.5s ease forwards; }
+  @keyframes fadeInPage { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Hero text animation */
+  @keyframes heroFadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-title { animation: heroFadeUp 1s ease 0.2s both; }
+  .hero-sub { animation: heroFadeUp 1s ease 0.5s both; }
+  .hero-btns { animation: heroFadeUp 1s ease 0.8s both; }
+
+  /* Parallax subtle */
+  .parallax-bg { background-attachment: fixed; }
+
+  /* Nav link active */
+  .nav-link.active { color: #17341e; border-bottom: 1px solid #17341e; }
+  .nav-link { color: #727971; transition: color 0.3s; }
+  .nav-link:hover { color: #805533; }
+
+  /* Mobile menu */
+  #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  #mobile-menu.open { max-height: 400px; }
+
+  /* Toast */
+  #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #17341e; color: white; padding: 12px 24px; border-radius: 8px; font-size: 13px; font-family: 'Manrope'; z-index: 9999; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); white-space: nowrap; }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Auth modal */
+  #auth-modal { position: fixed; inset: 0; background: rgba(27,28,25,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  #auth-modal.show { display: flex; }
+  #auth-modal .modal-card { animation: heroFadeUp 0.4s ease both; }
+
+  /* Guest selector active */
+  .guest-btn.active { background: #17341e; color: white; }
+
+  /* Stagger animations */
+  .stagger-1 { animation-delay: 0.1s !important; }
+  .stagger-2 { animation-delay: 0.2s !important; }
+  .stagger-3 { animation-delay: 0.3s !important; }
+  .stagger-4 { animation-delay: 0.4s !important; }
+  .stagger-5 { animation-delay: 0.5s !important; }
+
+  /* Hover card lift */
+  .card-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .card-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(27,28,25,0.08); }
+
+  /* Image grayscale hover */
+  .img-color { filter: grayscale(30%); transition: filter 0.5s ease; }
+  .img-color:hover { filter: grayscale(0); }
+
+  /* Floating label effect */
+  .float-input { transition: background 0.3s; }
+  .float-input:focus { background: white !important; }
+
+  /* Pulse dot */
+  @keyframes pulse-ring { 0%{transform:scale(.8);opacity:1} 100%{transform:scale(2.5);opacity:0} }
+  .pulse-dot::after { content:''; position:absolute; inset:0; border-radius:50%; border:2px solid #805533; animation: pulse-ring 2s infinite; }
+
+  /* Smooth scroll to section */
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-primary">
+
+<!-- =========== TOP NAV =========== -->
+<nav id="main-nav" class="fixed top-0 w-full z-50 bg-stone-50/80 backdrop-blur-xl border-b border-stone-200/20 transition-all duration-300">
+  <div class="flex justify-between items-center px-6 md:px-12 py-5 w-full max-w-screen-2xl mx-auto">
+    <button onclick="showPage('home')" class="text-xl font-headline italic text-on-background tracking-tighter hover:text-secondary transition-colors">ZIBA Cafe</button>
+    <div class="hidden md:flex items-center space-x-10 font-label text-xs tracking-[0.2em] uppercase">
+      <button class="nav-link active" id="nav-home" onclick="showPage('home')">Home</button>
+      <button class="nav-link" id="nav-menu" onclick="showPage('menu')">Menu</button>
+      <button class="nav-link" id="nav-about" onclick="showPage('about')">About</button>
+      <button class="nav-link" id="nav-find" onclick="showPage('find')">Find Us</button>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button onclick="openAuthModal('login')" class="text-on-background hover:text-secondary transition-colors">
+        <span class="material-symbols-outlined text-xl">person</span>
+      </button>
+      <button id="share-btn" onclick="handleShare()" class="text-on-background hover:text-secondary transition-colors" title="Share this page">
+        <span class="material-symbols-outlined text-xl">share</span>
+      </button>
+      <button onclick="toggleMobileMenu()" class="md:hidden text-on-background">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden px-6 bg-stone-50/95">
+    <div class="flex flex-col space-y-4 py-4 font-label text-xs tracking-widest uppercase">
+      <button class="text-left text-on-background hover:text-secondary" onclick="showPage('home'); toggleMobileMenu()">Home</button>
+      <button class="text-left text-on-background hover:text-secondary" onclick="showPage('menu'); toggleMobileMenu()">Menu</button>
+      <button class="text-left text-on-background hover:text-secondary" onclick="showPage('about'); toggleMobileMenu()">About</button>
+      <button class="text-left text-on-background hover:text-secondary" onclick="showPage('find'); toggleMobileMenu()">Find Us</button>
+      <button class="text-left text-on-background hover:text-secondary" onclick="showPage('reserve'); toggleMobileMenu()">Reserve a Table</button>
+      <button class="text-left text-on-background hover:text-secondary" onclick="showPage('order'); toggleMobileMenu()">Order for Collection</button>
+    </div>
+  </div>
+</nav>
+
+<!-- =========== PAGE: HOME =========== -->
+<div id="page-home" class="page active">
+  <!-- Hero -->
+  <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover scale-105 transition-transform duration-[10s] hover:scale-100" src="https://lh3.googleusercontent.com/aida/ADBb0uin81U7Coyrdo2vwg_m8p_Tv2ZdWsKNreHZLUrBfemVihMRyL1DmkCswbiPltdAAHkpxjJNale9UYXIsUarxYMpl-9vX_5AAcUeZMW8j3GSBv9s9fifiYY3iIZVfdE_DhUutpdKmfcEt4WzKMCh0QKK-FY_F4fYZOhTWujfEC1xvJ9WaUSCu6Dapk20M2YRkQ3cnkJziAggY5uUZp9XX2zjHO9Vb0DtNghVAsRkwvQKX-ggHgww2qmi_vyIsArJPXJNeoMC4uS79z4" alt="ZIBA Cafe Interior">
+      <div class="absolute inset-0 bg-primary/30"></div>
+    </div>
+    <div class="relative z-10 text-center px-4 max-w-4xl">
+      <h1 class="hero-title text-6xl md:text-8xl text-surface-container-lowest font-headline italic leading-tight mb-6">ZIBA Cafe</h1>
+      <p class="hero-sub text-xl md:text-2xl text-surface-bright font-light tracking-wide mb-10 max-w-2xl mx-auto">A sanctuary of slow living, where seasonal flavors meet the quiet rhythm of nature.</p>
+      <div class="hero-btns flex flex-col md:flex-row items-center justify-center gap-6">
+        <button onclick="showPage('menu')" class="px-10 py-4 bg-primary text-on-primary rounded-md font-label uppercase tracking-widest text-sm hover:bg-primary-container transition-all duration-300 shadow-xl shadow-primary/10">Explore Menu</button>
+        <button onclick="showPage('about')" class="px-10 py-4 border border-surface-container-lowest text-surface-container-lowest rounded-md font-label uppercase tracking-widest text-sm hover:bg-surface-container-lowest hover:text-primary transition-all duration-300">Our Story</button>
+      </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
+      <span class="text-white text-[10px] uppercase tracking-widest font-label">Scroll</span>
+      <div class="w-px h-10 bg-white/50 animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-24 px-6 md:px-12 max-w-screen-2xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+      <div class="md:col-span-7 reveal-left">
+        <span class="text-secondary font-label uppercase tracking-[0.2em] text-xs block mb-4">The Atmosphere</span>
+        <h2 class="text-4xl md:text-6xl font-headline text-on-background mb-12 leading-snug">Curated corners for <br><span class="italic text-primary">quiet contemplation.</span></h2>
+        <div class="relative group overflow-hidden rounded-lg aspect-[4/5]">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACeENGEoxRCVyibyKsIWpnicrX7oxTO85_Dd1g1ZpYpLGzQKyBppePM7h0yEyXbMdWGhSRDzr4yFhzWYajgylW-2nq98qD0afoeB038wt28rmeZqrBrI1UQk7rrEeEoTScgbAe7Rzma7VYrtuP_R2c0lqkRNL3iRAWy-_cYIcdds2rK3nLkkWCsqeEMjmK-ep9og6QeCxQyYFZFOWPUnUCJ2DfZq8K59IuXnwnYF49E_k8lG8Om3_WRZEnCQlg805rykJJJEPS0ddH" alt="Coffee table">
+        </div>
+      </div>
+      <div class="md:col-span-5 space-y-12 reveal-right">
+        <div class="relative group overflow-hidden rounded-lg aspect-square">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFhThx_-nhFMsPhATTOwTPlxr_4Xr5piLMgxF-NVRwgohQ1Gkaza4LYfiCDNpJWDFJj1mjk56_xo-WYoNN1D6t-sPu13qp4cfHM9gFSHz8OjVYkTCFrFwdHdl7bKbYEuM8m9KbQRXcQLsIh22Fa6sc9nl3xo_x25Q_8vS5ooELBH_uS00X8GZo9nU7cEt_MZA-1Ja97dazocPWv7H8IfPHHtk5CJANri-dT17rL491o0ol0hN8vCsCRAqRgQP_TYCzk4-yZcs2Hww2" alt="Cafe interior">
+        </div>
+        <div class="bg-surface-container-low p-12 rounded-lg">
+          <p class="text-on-surface-variant font-body text-lg leading-relaxed italic">"Every element in ZIBA is chosen to evoke a sense of grounded luxury. From the grain of the reclaimed oak to the specific roast of our single-origin beans."</p>
+          <div class="mt-8 flex items-center gap-4">
+            <div class="h-px w-12 bg-outline-variant"></div>
+            <span class="text-xs uppercase tracking-widest font-label text-secondary">Founding Philosophy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Preview -->
+  <section class="bg-surface-container-low py-24 px-6 md:px-12">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 reveal">
+        <div>
+          <span class="text-secondary font-label uppercase tracking-[0.2em] text-xs block mb-4">From the Kitchen</span>
+          <h2 class="text-4xl md:text-5xl font-headline text-on-background">Signature Gatherings</h2>
+        </div>
+        <button onclick="showPage('menu')" class="group flex items-center gap-2 text-primary font-label uppercase tracking-widest text-sm border-b border-primary/20 pb-1 hover:border-primary transition-colors">
+          View Full Menu <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-surface-container-lowest p-4 rounded-xl card-lift reveal stagger-1">
+          <div class="aspect-[4/3] overflow-hidden rounded-lg mb-6">
+            <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx1XX87lRHzUWJT9j0EkC1mkWzqgredgf3LwAZNGyvzBwGK01LwGNUfL39eXDOHi7PoC6VYkAx5E6qOOll0jbo01bb1z-rV9jQq0HpzjvzuibE5M6U99hGtgO15P6vppzJYRm1-EU6IK0Y5NzW-xMQRwRRRvJ7C3y7EfHDjxINWGa13ZcYyOO2YugNSQ0YWSwXjkVZhzvjnxsBTQWtbBvsd692Wd37tkK7Nq_ETkKXXNGPA8oMCWllgs7D7BQ9l8kUW1peNPEpSqCT" alt="Avocado Toast">
+          </div>
+          <div class="px-2 pb-4">
+            <div class="flex justify-between items-baseline mb-2">
+              <h3 class="text-xl font-headline text-on-background">Avocado & Jasmine</h3>
+              <span class="text-secondary font-body font-bold text-sm">₹1,350</span>
+            </div>
+            <p class="text-on-surface-variant text-sm font-body leading-relaxed">Smashed Hass avocado, jasmine-infused honey, chili flakes, and micro-herbs on toasted sourdough.</p>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest p-4 rounded-xl card-lift reveal stagger-2">
+          <div class="aspect-[4/3] overflow-hidden rounded-lg mb-6">
+            <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpK-nMacnrFUw8fBYfK29l_GMHxbloQzFHxKxsI7geb0JI15YVtPKPiuQ5y_T2RrWzjujl48eiyoxvodGZ-CGLaTDJElrQJGwfmYrF5jcpLrArXJtMEnJi3zOLEgP1P3wfKV4G6bVlQyVY9Y7jfamUyYslTzrmwlwvgxnSWrFw5unCPuKj1SmZayXW2Ukc5kyyaZkw_Nsqq61DJnvZFlShYGn8P2VXmnZDemV_GL9my30TP8YpjArN32_bWLme200nn4Ysq5mC8L9g" alt="Forest Latte">
+          </div>
+          <div class="px-2 pb-4">
+            <div class="flex justify-between items-baseline mb-2">
+              <h3 class="text-xl font-headline text-on-background">The Forest Latte</h3>
+              <span class="text-secondary font-body font-bold text-sm">₹675</span>
+            </div>
+            <p class="text-on-surface-variant text-sm font-body leading-relaxed">Ceremonial grade matcha, oat milk, and a house-made cedar and rosemary syrup blend.</p>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest p-4 rounded-xl card-lift reveal stagger-3">
+          <div class="aspect-[4/3] overflow-hidden rounded-lg mb-6">
+            <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcq2YLXNpD7lxwiiWQQj4z570XhasIgvfyG0icy83ZuHdbtgQRnYHLPSYUhPYj25NqCieaV9ZjO23qHqJPRXURUQkGYdAMYGt94Ba9F8ISFZdHapB8PmFGOF5PK3rAwsgBxeycb4qhzOydamXQ_Zyok35x_6PV8UhqQ00qT9WPPxAZHJ9IJsnvHj89nRfcY5ldSHk4VdK1YRJI6BMPUGDkku1-ksGjRhr0i21MLWdyxg4_pv2Nb5Q7neiwJ5hJtkI6WoUdaqlWlyvw" alt="Truffle Forage">
+          </div>
+          <div class="px-2 pb-4">
+            <div class="flex justify-between items-baseline mb-2">
+              <h3 class="text-xl font-headline text-on-background">Truffle Forage</h3>
+              <span class="text-secondary font-body font-bold text-sm">₹1,850</span>
+            </div>
+            <p class="text-on-surface-variant text-sm font-body leading-relaxed">Slow-poached eggs, seasonal wild mushrooms, black truffle emulsion, and wilted garden kale.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Band -->
+  <section class="py-24 px-6 md:px-12 bg-primary text-on-primary">
+    <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 reveal">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-headline italic mb-3">Join us for something unforgettable.</h2>
+        <p class="text-on-primary-container font-body opacity-80">Reserve your table or order for collection today.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button onclick="showPage('reserve')" class="px-8 py-4 bg-on-primary text-primary rounded-md font-label uppercase tracking-widest text-sm hover:bg-primary-fixed transition-all duration-300 shadow-lg">Reserve a Table</button>
+        <button onclick="showPage('order')" class="px-8 py-4 border border-on-primary/40 text-on-primary rounded-md font-label uppercase tracking-widest text-sm hover:bg-on-primary/10 transition-all duration-300">Order for Collection</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#f0eee9] text-[#17341e] py-16">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8 max-w-screen-2xl mx-auto">
+      <div class="flex flex-col gap-2 text-center md:text-left">
+        <div class="font-headline italic text-lg text-[#17341e]">ZIBA Cafe</div>
+        <div class="font-body text-sm tracking-wide">
+          <p class="text-[#727971]">A community rooted in warmth, skill, and the quiet beauty of the Doon Valley.</p>
+          <p class="mt-2 text-[#727971]">© 2026 ZIBA Cafe.</p>
+        </div>
+      </div>
+      <div class="flex gap-10 font-body text-sm tracking-wide">
+        <button onclick="showPage('home')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Home</button>
+        <button onclick="showPage('menu')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Menu</button>
+        <button onclick="showPage('about')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">About</button>
+        <button onclick="showPage('find')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Find Us</button>
+      </div>
+      <div class="flex gap-6">
+        <span onclick="handleShare()" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors" title="Share">share</span>
+        <span onclick="showPage('find')" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors" title="Location">location_on</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- =========== PAGE: MENU =========== -->
+<div id="page-menu" class="page">
+  <!-- Hero -->
+  <header class="relative pt-28 pb-20 px-8 max-w-7xl mx-auto overflow-hidden">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="z-10 reveal-left">
+        <span class="font-label text-secondary uppercase tracking-[0.2em] text-sm mb-6 block">Savor the Seasons</span>
+        <h1 class="font-headline text-7xl md:text-8xl text-primary leading-tight mb-8">Our Menu</h1>
+        <p class="font-body text-xl text-on-surface-variant max-w-lg leading-relaxed italic">A curated journey through botanical flavors. We believe in the slow art of extraction, the warmth of handmade bread, and the vibrant life found in every leaf.</p>
+      </div>
+      <div class="relative reveal-right">
+        <div class="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl transform rotate-2">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh3dyTpPEzCv-t6o3IPskTNGhlxC0t1dJU5P3tPR8b-gM4Nusbn6c0SeFr-IuwQ2MphRJ_DDlrBy8fvABZbQXqZBOJHLa55VaZ3Lfg466iFJNWCOfwqv0eDOtGsyaeDKdVMaNr-tDxWEp4L_NYRbwSiMlaB86K349mFtwD9lSK0dZugmvy9yG8AvAebdAHfdlxNUnomlv4WtnKw-y7mwwPqaLXki1OW3o37GPd7NufCc-cOte9L5nVn5CBNCCldjfqWlxZz_iAF6Bw" alt="Cafe interior">
+        </div>
+        <div class="absolute -bottom-10 -left-10 w-64 h-64 rounded-xl overflow-hidden shadow-xl transform -rotate-6 hidden md:block">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWTe74NoUOZxTQHU0Avdw9oiCFM3SeSWHdEYfa-YNG3QGDK6jIfzCz12s_N11QQEzZh8qLBf70Ik1U0C14cpSM45eHQD63y0wjhNFyOGsWOSYtUSnY9maRCWiABrInVoddZeYktI_L-SGTgil9SzP_uZBhk31UuLPvQxPXqB1ilgzosHv9hWMTWBgGpCwuSLT4wSLmx1kJdNDiNQzm1EEMmT6boa09Z_LFd9toVheQ_EMlFuYNTRAyXLHN8jp8Tr4RmxpQsuQDgPv9" alt="Matcha latte">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Filter -->
+  <div class="sticky top-[76px] z-40 bg-surface/80 backdrop-blur-lg py-4 px-8 mb-8 border-b border-outline-variant/10">
+    <div class="max-w-screen-2xl mx-auto flex gap-8 overflow-x-auto no-scrollbar justify-center font-label text-xs uppercase tracking-widest text-on-surface-variant">
+      <a href="#m-coffee" class="hover:text-primary transition-colors py-2 border-b-2 border-transparent hover:border-secondary whitespace-nowrap">Coffee & Tea</a>
+      <a href="#m-refreshing" class="hover:text-primary transition-colors py-2 border-b-2 border-transparent hover:border-secondary whitespace-nowrap">Cool & Refreshing</a>
+      <a href="#m-food" class="hover:text-primary transition-colors py-2 border-b-2 border-transparent hover:border-secondary whitespace-nowrap">Bread & Toasts</a>
+    </div>
+  </div>
+
+  <!-- Coffee & Tea -->
+  <section id="m-coffee" class="px-8 py-24 max-w-7xl mx-auto">
+    <div class="mb-16 reveal">
+      <h2 class="font-headline text-4xl text-primary mb-2">Coffee & Tea</h2>
+      <div class="w-20 h-0.5 bg-secondary"></div>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-20 gap-y-16">
+      <div class="reveal stagger-1">
+        <h3 class="font-label text-secondary uppercase tracking-widest text-sm mb-10 pb-2 border-b border-outline-variant/30">Espresso Based</h3>
+        <div class="space-y-8">
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">Americano</h4><p class="text-xs text-on-surface-variant font-light mt-1">Rich espresso diluted with pure mineral water.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹380</span>
+          </div>
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">Latte</h4><p class="text-xs text-on-surface-variant font-light mt-1">Silky steamed milk poured over signature roast.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹460</span>
+          </div>
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">Flat White</h4><p class="text-xs text-on-surface-variant font-light mt-1">Velvety micro-foam with a double shot.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹435</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal stagger-2">
+        <h3 class="font-label text-secondary uppercase tracking-widest text-sm mb-10 pb-2 border-b border-outline-variant/30">Speciality Coffee</h3>
+        <div class="space-y-8">
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">Pour Over</h4><p class="text-xs text-on-surface-variant font-light mt-1">Rotating single origin, manually brewed.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹590</span>
+          </div>
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">French Press</h4><p class="text-xs text-on-surface-variant font-light mt-1">Classic full-bodied immersion brew.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹545</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal stagger-3">
+        <h3 class="font-label text-secondary uppercase tracking-widest text-sm mb-10 pb-2 border-b border-outline-variant/30">Chai & Tea Pots</h3>
+        <div class="space-y-8">
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">Artisan Chai</h4><p class="text-xs text-on-surface-variant font-light mt-1">Hand-ground spices with Assam black tea.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹505</span>
+          </div>
+          <div class="flex justify-between items-start">
+            <div><h4 class="font-headline text-lg text-primary">Botanical Infusion</h4><p class="text-xs text-on-surface-variant font-light mt-1">Rosehip, dried citrus, and wild mint.</p></div>
+            <span class="font-body text-secondary whitespace-nowrap ml-4">₹490</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Interstitial -->
+  <section class="w-full bg-surface-container-low py-12">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="aspect-square bg-surface overflow-hidden rounded-lg reveal stagger-1">
+          <img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVh6mP4e1a4ruJ7VKmjDW7fe_6wGzNba_bndvitsHdBUjHz1W0XO9oth6uhtl9hBJl_sl4C8WsPJXts7Ze68fJfAObholgpY_NPVTVoI_FMnCwkP_wDy-QSt3liAEssTAlFj-db1nIRKrO_0NtkQlbVQROM1L5ZBNQm43_-nMlDBhKNeSGn4aTTHHxLFAZ87wOM4bcVdX0zZHNUhOJjPXY3M-mn4n5dREMR7hXCq_JjepcoA-UVJlh9F89lqBzGMxNHMVLvGxiMUM6" alt="Coffee beans">
+        </div>
+        <div class="aspect-square bg-surface overflow-hidden rounded-lg md:mt-12 reveal stagger-2">
+          <img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTOJKTNsLgw0WZd3BomJEei_K7oeoefhOU84PJZImWL_qrOQJsgfWmiLCuTgZ_aOctES_m23jidhOSyyBa9E-yYuJK-Mc_T3rQnLaQt98aIqFsOPqyA3oprcWrVX2Y82WMPX-htHNJCCis3gjyNrSzkSqGHE7OTpuO-6IC8a-lnNi51JAj-tCzTgIP8TB5wPndaNIYoFLWAU1CabeJLx0RfA0FLMs1-4OW8hp0EmhytE4lqC6-8vDvDaTo3s213iZ0m5l39hBk_NBA" alt="Herbs">
+        </div>
+        <div class="aspect-square bg-surface overflow-hidden rounded-lg reveal stagger-3">
+          <img class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgOdB6WtsQ7teVSeYPtCWLYeimWlS-5uNQhcUxuYGC2E7FEgsJKjCMBrdPCoGLUdvQFt6Eyy-Rre4styh9RthOUFKk7X4WUSL0kBnctqvbUH6gHTfhKDnqWTO0HgcmN2gTwOgmVrNYw-NF4AVH4MPcrhZ-Ka6u98QQjCYZHUvW6yW5Sffy5LKBEJCkWlEZg-hB8l8qcyz6PCP3XDyjNBFTJxkVUlIiT79yeabT9ZiDdarindPMaHYsTuCeTSf9e-sZYEnZrFoVa5UV" alt="Avocado toast">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cool & Refreshing -->
+  <section id="m-refreshing" class="px-8 py-24 max-w-7xl mx-auto bg-background">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 reveal">
+      <div>
+        <h2 class="font-headline text-4xl text-primary mb-2">Cool & Refreshing</h2>
+        <div class="w-20 h-0.5 bg-secondary"></div>
+      </div>
+      <p class="font-body text-on-surface-variant italic max-w-sm">Ice-cold botanical blends for bright afternoons.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-1">
+        <h3 class="font-label text-primary uppercase text-xs tracking-widest mb-6">Iced Teas & Coolers</h3>
+        <ul class="space-y-6">
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Hibiscus Berry</span><span>₹520</span></div>
+            <p class="text-xs text-on-surface-variant">Cold brewed floral delight.</p>
+          </li>
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Cucumber Mint</span><span>₹490</span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-2">
+        <h3 class="font-label text-primary uppercase text-xs tracking-widest mb-6">Shakes</h3>
+        <ul class="space-y-6">
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Tahini Cacao</span><span>₹715</span></div>
+            <p class="text-xs text-on-surface-variant">Dates, tahini, organic cacao.</p>
+          </li>
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Salted Caramel</span><span>₹715</span></div>
+            <p class="text-xs text-on-surface-variant">House-made date caramel and smoked salt.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-3">
+        <h3 class="font-label text-primary uppercase text-xs tracking-widest mb-6">Smoothies</h3>
+        <ul class="space-y-6">
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Green Vitality</span><span>₹675</span></div>
+            <p class="text-xs text-on-surface-variant">Kale, green apple, ginger, lime.</p>
+          </li>
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Golden Glow</span><span>₹675</span></div>
+            <p class="text-xs text-on-surface-variant">Mango, turmeric, coconut water.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-4">
+        <h3 class="font-label text-primary uppercase text-xs tracking-widest mb-6">Frappes</h3>
+        <ul class="space-y-6">
+          <li class="flex flex-col gap-1">
+            <div class="flex justify-between font-headline text-primary"><span>Caramel Oat</span><span>₹630</span></div>
+            <p class="text-xs text-on-surface-variant">Blended with cold brew and oat milk.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bread & Toasts -->
+  <section id="m-food" class="px-8 py-32 max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-20 items-start">
+      <div class="order-2 lg:order-1 reveal-left">
+        <div class="rounded-2xl overflow-hidden">
+          <img class="w-full aspect-[3/4] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIbyC-zNFNRlJxHxWunluP0wjaOxK045iRdb7P_OGtfY6o7guLr2a7LMEWxMRV95t-OpjvdFgKbw-TksWCAGJsABC66URqglJF3p944-JntKAUHgILr9ay0uV4TB3BPpb_9KRJBFVA6p9T0hTpfpdsNaT7RpWCxgjDuyc132HeKxtmRqDJsoONy1KWsXO77nqoJDhocRZFYIVFfaZVczqDU6c0wIZmvRgZK3Ue2uyfIB_phKC8RosGlY1LrQbpfieu-AAYjptcL9jq" alt="Avocado toast">
+        </div>
+      </div>
+      <div class="order-1 lg:order-2 reveal-right">
+        <span class="font-label text-secondary uppercase tracking-[0.2em] text-sm mb-4 block">The Bakery</span>
+        <h2 class="font-headline text-5xl text-primary mb-12">Bread & Toasts</h2>
+        <div class="space-y-12">
+          <div>
+            <div class="flex justify-between items-baseline mb-3">
+              <h3 class="font-headline text-2xl text-primary">Avocado Toast</h3>
+              <span class="font-body text-secondary text-lg">₹1,175</span>
+            </div>
+            <p class="font-body text-on-surface-variant leading-relaxed">Sourdough base, smashed avocado, citrus zest, chili flakes, and a sprinkle of our house-made botanical dukkah.</p>
+          </div>
+          <div>
+            <div class="flex justify-between items-baseline mb-3">
+              <h3 class="font-headline text-2xl text-primary">Garlic Hummus Toast</h3>
+              <span class="font-body text-secondary text-lg">₹1,050</span>
+            </div>
+            <p class="font-body text-on-surface-variant leading-relaxed">Creamy garlic hummus topped with seasonal roasted vegetables, fresh parsley oil, and toasted pine nuts.</p>
+          </div>
+          <div class="p-8 bg-surface-container-highest/40 rounded-xl border-l-4 border-secondary">
+            <div class="flex justify-between items-baseline mb-3">
+              <h3 class="font-headline text-2xl text-primary italic">Ziba Special Brioche</h3>
+              <span class="font-body text-secondary text-lg">₹1,345</span>
+            </div>
+            <p class="font-body text-on-surface-variant leading-relaxed">Toasted signature brioche with honey-whipped ricotta, fresh seasonal berries, and a drizzle of lavender syrup.</p>
+            <span class="inline-block mt-4 text-[10px] uppercase tracking-widest text-secondary font-bold">House Signature</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="px-8 py-24 text-center max-w-4xl mx-auto flex flex-col items-center reveal">
+    <h3 class="font-headline text-4xl text-primary mb-8">Ready for a slow morning?</h3>
+    <p class="font-body text-on-surface-variant mb-12 italic">Join us in our urban sanctuary for a taste of the extraordinary.</p>
+    <div class="flex flex-col md:flex-row gap-6 justify-center">
+      <button onclick="showPage('reserve')" class="bg-primary text-on-primary px-10 py-4 rounded-lg font-label uppercase tracking-widest text-sm hover:opacity-90 transition-all shadow-lg">Reserve a Table</button>
+      <button onclick="showPage('order')" class="text-secondary border-b border-secondary px-4 py-4 font-label uppercase tracking-widest text-sm hover:text-primary hover:border-primary transition-all">Order for Collection</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#f0eee9] text-[#17341e] py-16">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8 max-w-screen-2xl mx-auto">
+      <div class="flex flex-col gap-2 text-center md:text-left">
+        <div class="font-headline italic text-lg">ZIBA Cafe</div>
+        <p class="text-sm text-[#727971]">A community rooted in warmth, skill, and the quiet beauty of the Doon Valley.<br>© 2026 ZIBA Cafe.</p>
+      </div>
+      <div class="flex gap-10 text-sm">
+        <button onclick="showPage('home')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Home</button>
+        <button onclick="showPage('menu')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Menu</button>
+        <button onclick="showPage('about')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">About</button>
+        <button onclick="showPage('find')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Find Us</button>
+      </div>
+      <div class="flex gap-6">
+        <span onclick="handleShare()" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">share</span>
+        <span onclick="showPage('find')" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">location_on</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- =========== PAGE: ABOUT =========== -->
+<div id="page-about" class="page">
+  <main class="pt-24">
+    <!-- Hero -->
+    <section class="relative px-8 md:px-20 py-16 md:py-32 overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center max-w-7xl mx-auto">
+        <div class="md:col-span-6 z-10 reveal-left">
+          <span class="font-label text-secondary uppercase tracking-[0.2em] text-sm mb-4 block">Est. October 2020</span>
+          <h1 class="text-6xl md:text-8xl font-headline text-primary leading-tight mb-8">ज़ीबा की <br><span class="italic text-secondary">कहानी</span></h1>
+          <p class="text-lg md:text-xl text-on-surface-variant font-body leading-relaxed max-w-md">Born in the embrace of the Doon Valley, ZIBA is more than a cafe. It is a chronicle of warmth, skill, and the art of slow living.</p>
+        </div>
+        <div class="md:col-span-6 relative reveal-right">
+          <div class="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl transform md:rotate-2 hover:rotate-0 transition-transform duration-700">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcjDZPjmM_T9grxqgHsZKvbJVc-NLs-CHTNMlTuDb7mmN_7L8znoB51ujDdozgtAnSgco3wtB-eKzChn0It5kAtkMiraIArewZMxSFGlbLc-XcX4y-VwPmd79MY4vPIi1YqYr4LnYtUGfCISQYa75cPS208PbsDF3vUxJktcuQlshRDNlkrGyzFvJYJvU5J_FHeenhYmamOj8tY4XLaZ0HvOiHvOufLRtS1CqRbVxbDc4J-z1raGbAN1Aiux2WdpDf2miDoZnL9wti" alt="ZIBA Cafe Interior">
+          </div>
+          <div class="absolute -bottom-10 -left-10 hidden md:block w-64 h-80 rounded-xl overflow-hidden border-[12px] border-background shadow-xl transform -rotate-3 hover:rotate-0 transition-transform duration-700">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtXNptQEMKF4uN9VJ5-qrE9kOlJtHIHqJbrYx9HAUqk2NcAkwkWWZ7ATsj6zMddEezv-zpSKClxwu2rOBWnUMIcRrxThgKPpQYH59JzJpSKEqJ4WcqfRbQqj7dtYdWYHZwQ0NEDSHyOqmNAWLYo5R8O2Yi9Vqcpf9ZZFZRaP34Q3ngOV51MSuT6iBOIlkaVgx7CcHvC6NgED6kt-x000kh6aY5Hae7iFyteTxL7SKgs8ZUsiA6VmUARSsaoUQw8vTZSlKoGHupEGBT" alt="Coffee pour">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founders -->
+    <section class="bg-surface-container py-24 px-8 md:px-20">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-16 items-start">
+          <div class="w-full md:w-1/2 reveal-left">
+            <h2 class="text-3xl font-headline text-primary mb-6">A Journey of Two Hearts</h2>
+            <div class="space-y-6 text-on-surface-variant leading-relaxed font-body text-lg">
+              <p>In October 2020, amidst the quiet majesty of the Doon Valley, Nirdesh and Ruby envisioned a space that breathed. They sought to build something that wasn't just a destination, but an anchor for the community.</p>
+              <p>ZIBA was founded on the belief that beauty lies in the details—the grain of the wood, the depth of the roast, and the genuine smile of the person serving you.</p>
+            </div>
+            <div class="mt-10 p-8 bg-surface-container-low rounded-xl border-l-4 border-secondary italic font-headline text-primary text-xl">
+              "We wanted to create a hearth for the valley—a place where time slows down and every cup tells a story of the soil it came from."
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 grid grid-cols-2 gap-4 reveal-right">
+            <div class="space-y-4">
+              <img class="rounded-xl w-full h-64 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKJCjWN-G4J91TFY4y-KGwi7HTl6c57Wv435hXgF5UFVNCkPqdH8v5YdgflsL-5r4g8EeNndBbVj89cm2gEVfERLfNpe7FrTQNXOam5JcVS_DVERjqD1m1rjbvNz1LU4L61g6RIZly-nKf-MShko4M6fIplMHHOpUMNJPdHSX3dq_PIAchLqqT0LDORSIbxLSHcTbXew1-UER_rR1GG6BiaHhPgtGT8vFjiRL9cfNZSjgO5J4YGfLDONdYyAA-DzXqkK8NrjH0feo2" alt="Founders">
+              <img class="rounded-xl w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ6vKkmISDiPqfeHRcxDnvzVYjjHqJgcK_90AT4pn15x6Sn0LHnM-TbaOWfAYrWsnLULqZFm7uIDHCQET_fkURRj8eQ1QiXM5kOngE8YrEpTpdXNmY1eT54377rwmsHoHiRjR9Bv4C18hn5U59yzWZFEDgmyjN6RZ8AuGw-fsceoBLFBoMUmIfV3Y0R_vfX-lH2cLH0IEcm2PiG3TLcud-99se92vK1tnIcmlH39NjnFgC3av0Ye98bxJzyES-WW12bEnPAJlgxQdT" alt="Ceramic mug">
+            </div>
+            <div class="space-y-4 pt-8">
+              <img class="rounded-xl w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhXoM09lSg3FbtTh9Xr0U1_3HVYnVmYToT29lT4gSRIeAaSZsLXDEwQcLERkqy8zMqwiYtfzxq2ZfoM1oXBcZv7ihQK5Qlahq_epYL7i1CacA5OeCgaW-lwJftBOVSp50k670uDivqi8oetRI9nId2fUaawOJ120J5-znvjL6aaGbyGCwrZg873XUAnKeZiIBQuYzO6gArOknyAgWq7H5-fLqejgCD7OPXA_wue0gThS5WeBp-6rkVwCCbtMRmEJspaYKvRJwUMVNE" alt="Journal">
+              <img class="rounded-xl w-full h-64 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrn3C5suiWoE1FDyFL3v4vRCmKBz8xK92cUESHap2054xwCk20QbVf1y_laxc2gsCSahCiHN5Dpm4SpogQaJySFZcL5xqHgxgHafbO0gXN-rf6fnZxu6qvvi8mK_AoNACgSxYVOP9_bN4yDqx--sHoOYdQKsjUFj2YjmdsMnFBeVRCuZxCc0Tt4DH9BZTfjqwVd0Q9PnoUuxECfTwB769f9bzhU90Fae5j_xvC-DFXWsDsZxu-oaePjif9xdsQoA1_QqJtSTS_fKXd" alt="Tea garden">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="py-24 px-8 md:px-20 bg-background">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <span class="font-label text-secondary uppercase tracking-widest text-xs mb-4 block">The Soul of ZIBA</span>
+          <h2 class="text-4xl md:text-5xl font-headline text-primary">The Women of Uttarakhand</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-1">
+            <span class="material-symbols-outlined text-4xl text-secondary mb-6 block">eco</span>
+            <h3 class="text-xl font-headline text-primary mb-4">Rooted in Warmth</h3>
+            <p class="font-body text-on-surface-variant leading-relaxed">Our team consists of young women from the local valleys of Uttarakhand, bringing their inherent grace and traditional hospitality to every table.</p>
+          </div>
+          <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-2">
+            <span class="material-symbols-outlined text-4xl text-secondary mb-6 block">auto_awesome</span>
+            <h3 class="text-xl font-headline text-primary mb-4">Refined Skill</h3>
+            <p class="font-body text-on-surface-variant leading-relaxed">Through continuous training and shared passion, our team has mastered the art of artisan baking and specialty coffee brewing.</p>
+          </div>
+          <div class="bg-surface-container-low p-8 rounded-xl card-lift reveal stagger-3">
+            <span class="material-symbols-outlined text-4xl text-secondary mb-6 block">potted_plant</span>
+            <h3 class="text-xl font-headline text-primary mb-4">Slow Living</h3>
+            <p class="font-body text-on-surface-variant leading-relaxed">We champion a pace of life that respects the seasons and the person. At ZIBA, we don't just work; we craft experiences.</p>
+          </div>
+        </div>
+        <div class="mt-20 relative h-[500px] rounded-2xl overflow-hidden group reveal">
+          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu8o2njnpscDwbOyWWz2lMTteNhpmbF1Uge1Z9CzrKdsLiIarlKeb-0piZAcZ93M_jwem0gLnSj8yAHu6WtgodM868e2IWflHPIGpvzU5SjzAJJWD0TJLRJM8XKJG6iNh-tfqai379-9yiw8Mlo-0DQbEsdtcVHMfZVh3tr2OorErc8_WOKaVAhKhADBuhDm2Apma5aG5ssiyAuDWYGumbA0kxv2B8TFORzpmlFxkLpK46QRNRZ9Gmk8Xu6po7gV4STc9SA2K3j8Nn" alt="Team photo">
+          <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent flex items-end p-12">
+            <div class="text-white max-w-2xl">
+              <h3 class="text-3xl font-headline mb-4">More than a Team, A Sisterhood.</h3>
+              <p class="font-body opacity-90 text-lg">Every member of our staff represents the future of the valley—strong, skilled, and deeply connected to their heritage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signoff -->
+    <section class="py-32 px-8 md:px-20 flex flex-col items-center text-center bg-surface-container-lowest reveal">
+      <div class="max-w-2xl">
+        <span class="material-symbols-outlined text-secondary text-5xl mb-8 block">favorite</span>
+        <h2 class="text-3xl md:text-4xl font-headline text-primary mb-8 italic">Finally, to all our patrons, thank you.</h2>
+        <p class="text-lg text-on-surface-variant font-body leading-relaxed mb-12">Your presence has turned this dream into a reality. You are the reason the hearth at ZIBA stays warm. Whether you visit for a quiet morning coffee or a celebratory feast, you are part of our story now.</p>
+        <div class="flex flex-col items-center">
+          <span class="font-headline text-2xl text-primary mb-2">With love & gratitude,</span>
+          <span class="font-label text-secondary tracking-widest uppercase text-sm">The ZIBA Family</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#f0eee9] text-[#17341e] py-16">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8 max-w-screen-2xl mx-auto">
+      <div class="flex flex-col gap-2 text-center md:text-left">
+        <div class="font-headline italic text-lg">ZIBA Cafe</div>
+        <p class="text-sm text-[#727971]">A community rooted in warmth, skill, and the quiet beauty of the Doon Valley.<br>© 2026 ZIBA Cafe.</p>
+      </div>
+      <div class="flex gap-10 text-sm">
+        <button onclick="showPage('home')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Home</button>
+        <button onclick="showPage('menu')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Menu</button>
+        <button onclick="showPage('about')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">About</button>
+        <button onclick="showPage('find')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Find Us</button>
+      </div>
+      <div class="flex gap-6">
+        <span onclick="handleShare()" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">share</span>
+        <span onclick="showPage('find')" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">location_on</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- =========== PAGE: FIND US =========== -->
+<div id="page-find" class="page">
+  <main class="pt-28">
+    <!-- Hero -->
+    <section class="relative px-8 lg:px-24 py-16 lg:py-32 grid lg:grid-cols-2 items-center gap-12 overflow-hidden max-w-screen-2xl mx-auto">
+      <div class="z-10 reveal-left">
+        <h1 class="font-headline text-5xl lg:text-7xl text-primary leading-tight mb-8">Visit Our <span class="italic font-normal">Sanctuary</span></h1>
+        <p class="font-body text-xl text-outline leading-relaxed max-w-lg mb-10">Nestled in the quiet embrace of Kandoli, Dehradun, our cafe is a breath of mountain air. Come for the stillness, stay for the craft.</p>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-px bg-secondary"></div>
+          <span class="font-label text-sm uppercase tracking-widest text-secondary font-semibold">Dehradun, Uttarakhand</span>
+        </div>
+      </div>
+      <div class="relative h-[500px] lg:h-[650px] reveal-right">
+        <div class="absolute inset-0 translate-x-4 translate-y-4 bg-surface-container -z-10 rounded-xl"></div>
+        <img class="w-full h-full object-cover rounded-xl shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFoe_c5wuetqLllsLP4vsSw4i_ifPyAcAXk9nfNz5JU_TY-n-Sn4fu5d75yCONKoQTKYKE0zxklgRyaMc1jtRtseWyzokpMc09Nb3oiE6Y1PEEzit_xX1WAOlfo1XbhXH_-6-55deW5X4T9LTk4tI_68v2oW-QvLzEK-fs_iRnYC-nF3xo4EWnrdYG-VmsUemWDayXGC1Sda0rAEjMVZV6Y-nPS7ledPoIoHLZ7WKG_OjQ4Ul_1NS7he2DoLHQO1mhxFKTk10F9DO1" alt="Cafe exterior">
+        <div class="absolute -bottom-8 -left-8 bg-surface-container-lowest p-8 shadow-xl max-w-xs hidden md:block">
+          <p class="font-headline italic text-primary text-lg">"The architecture mimics the forest floor—grounded, textured, and deeply alive."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento -->
+    <section class="px-8 lg:px-24 py-24 bg-surface-container-low">
+      <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 bg-surface-container-lowest p-12 flex flex-col justify-between min-h-[400px] reveal">
+          <div>
+            <span class="font-label text-xs uppercase tracking-[0.2em] text-outline block mb-6">Location</span>
+            <h2 class="font-headline text-3xl text-primary mb-6">Kandoli, Dehradun</h2>
+            <address class="not-italic font-body text-lg text-on-surface-variant leading-relaxed max-w-md">
+              Ziba Cafe, Plot No. 42,<br>Kandoli, Mussoorie Road,<br>Dehradun, Uttarakhand - 248007
+            </address>
+          </div>
+          <div class="mt-8 flex flex-col md:flex-row gap-8">
+            <div>
+              <span class="font-label text-[10px] uppercase tracking-widest text-outline block mb-2">Telephone</span>
+              <p class="text-secondary font-medium">+91 135 248 0007</p>
+            </div>
+            <div>
+              <span class="font-label text-[10px] uppercase tracking-widest text-outline block mb-2">Electronic Mail</span>
+              <p class="text-secondary font-medium">hello@zibacafe.in</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-primary text-on-primary p-12 flex flex-col reveal stagger-2">
+          <span class="font-label text-xs uppercase tracking-[0.2em] text-on-primary-container block mb-8">Operating Hours</span>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center border-b border-on-primary-fixed-variant/30 pb-3">
+              <span class="font-body text-sm uppercase tracking-widest">Monday</span>
+              <span class="font-headline italic">09:00 — 22:00</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-on-primary-fixed-variant/30 pb-3">
+              <span class="font-body text-sm uppercase tracking-widest">Tuesday</span>
+              <span class="font-headline italic">09:00 — 22:00</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-on-primary-fixed-variant/30 pb-3">
+              <span class="font-body text-sm uppercase tracking-widest">Wednesday</span>
+              <span class="font-headline italic">09:00 — 22:00</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-on-primary-fixed-variant/30 pb-3">
+              <span class="font-body text-sm uppercase tracking-widest">Thursday</span>
+              <span class="font-headline italic">09:00 — 22:00</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-on-primary-fixed-variant/30 pb-3">
+              <span class="font-body text-sm uppercase tracking-widest">Friday</span>
+              <span class="font-headline italic">09:00 — 22:00</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-on-primary-fixed-variant/30 pb-3">
+              <span class="font-body text-sm uppercase tracking-widest">Saturday</span>
+              <span class="font-headline italic">09:00 — 23:00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="font-body text-sm uppercase tracking-widest">Sunday</span>
+              <span class="font-headline italic">09:00 — 23:00</span>
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-3 h-[600px] bg-surface-variant relative overflow-hidden group reveal">
+          <div class="absolute inset-0 z-0 grayscale group-hover:grayscale-0 transition-all duration-700">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9WC41GF-Trt2fqNxcZGMXDp5ZtF_8Q_fCHuZU--XFvZ5Ek61wg3wZ3isdzYAH-LqC8tdkeqvUw6qpfm_rvUYZ6Bhe01nQjRMmWmiOHBDHrTKU_SCmC33VekwhSDcDYz4Lc5XONeQPbO6I-J7NGI872jb_qVx4oxXA1R0u3KuvF8enzeWhLRGWlnlDgWcXPAIpA7O6A4m9SO1aEHbKq2X1AePvU0DqX7-OwCEBV7RMHrKyiANK9sFhtw7oH5LNUKQ_l_o-NTRIOs0l" alt="Map">
+          </div>
+          <div class="absolute inset-0 bg-primary/10 pointer-events-none"></div>
+          <div class="absolute top-12 left-12 z-10 bg-surface-container-lowest p-8 shadow-2xl max-w-sm">
+            <h3 class="font-headline text-2xl text-primary mb-4">Navigating the Pines</h3>
+            <p class="font-body text-sm text-outline leading-relaxed mb-6">We are located just past the main Kandoli crossing. Look for the copper leaf signage and the tall cedar fence.</p>
+            <a href="https://maps.google.com/?q=Kandoli+Dehradun" target="_blank" class="bg-primary text-on-primary px-8 py-3 font-label text-xs uppercase tracking-widest hover:bg-primary-container transition-colors flex items-center gap-3 w-fit">
+              Open in Google Maps
+              <span class="material-symbols-outlined text-sm">north_east</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Teaser -->
+    <section class="py-24 px-8 overflow-hidden">
+      <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-12 items-end reveal">
+        <div class="md:w-1/3">
+          <span class="font-label text-xs uppercase tracking-[0.2em] text-secondary block mb-4 italic">The Atmosphere</span>
+          <h2 class="font-headline text-4xl text-primary leading-tight">Where architecture meets <br>the wild.</h2>
+        </div>
+        <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <img class="aspect-[3/4] object-cover rounded-sm img-color" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaMcgm46yFIQ9s-MzZhCY67cUTOucZIYc-kk2URn7W4kEfR9jISmduLttNh9UdNG8rno0x5OTX4Bug76K7BNfoU2N6BmE6unijPG2jG2mfIkBqFKg2MuT63Gg1d1PIS3eHrZGKlUv2RLEJ-SaFMOAsBJamztnRDTEwYZW8URyTUBXXWzmKfNbi1b27cCsVkDRzTgw7adkUaOWprYP99NQpWXVxUDN7yqcFFV0bnhxXHZaosZel4FgTROqbsLa_eAjXQ7AukgrINVdL" alt="Interior">
+          <img class="aspect-[3/4] object-cover rounded-sm mt-8 img-color" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAncYCOp0gH5jWaKyyVqs00wQaOtDi5y_0lyo4OA6vJXZNOlLo1PD0D5NshbDjFaQQA3nWqGZtI708hvhMe7wInKxotv3oN-AADG2sjfs4-s6QgDjGUZRI1TMmQ82xGMJUrwPXi_n62Kre19KPxnfAhoSxbzzwUsS_7afvxQYeV9r3Ogpwbr5nFu_bUbgsqij9Pnkad05-KVdS8lLOsxp0Yjzf4HDwsZ5K3EnkSGEpPaM5XDxHic3r6y3J0b_ZfquMhAyT3AMBZQuM4" alt="Cup">
+          <img class="aspect-[3/4] object-cover rounded-sm img-color" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqrS5aGpQ2aXI3-S-UWzbVAvPZ98yCL_oOtTvVRYw0lINdSGiL3NFDCBCA_KtE_p3_qGHMzdyI7gwTRXtFD3EGSS6zekIs6VbZengTEp_ZnjXDEOLgCJfquHTgZDFGM2wwTkNY3sqxGG1CJJsyVL1orKKCokkGdDsQNwZk_gN7dAcs6cE0GXvxGhE0QJGCc0aMYvlHr8AFnC4THu1yoVs3gob2kxDsVftuUE5xijHV1IYX20iaVwg5vJ0E7UcRkrwDd8-jJHguhrU-" alt="Corner">
+          <img class="aspect-[3/4] object-cover rounded-sm mt-8 img-color" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZKm7Clxjs9Wz7-GwCu89JaJzOkZuGZih3Mw2FfM53blD9lsGnMwYBPPGgQ_SBAJ31r4e1jcgli2jmQXpYdYqCE7n6HXQRNViDBP1Wy-1GzGQyAeBJ0CEnXtbKi15OeBCm-Xnz5h8Ywv4YSZVMar7LI8q90wVnI3wjUmJ58TKi5PaEYmsUjCCwfnVhJtiF4v1UC_RBIPX9BJZomxw4sfsq6xin0PEP3b_lJnVcHtNjA1ASFtoSAhkEKFVZ_28JRQhCZTmgGghEu0jk" alt="Art">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#f0eee9] text-[#17341e] py-16">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8 max-w-screen-2xl mx-auto">
+      <div class="flex flex-col gap-2 text-center md:text-left">
+        <div class="font-headline italic text-lg">ZIBA Cafe</div>
+        <p class="text-sm text-[#727971]">A community rooted in warmth, skill, and the quiet beauty of the Doon Valley.<br>© 2026 ZIBA Cafe.</p>
+      </div>
+      <div class="flex gap-10 text-sm">
+        <button onclick="showPage('home')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Home</button>
+        <button onclick="showPage('menu')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Menu</button>
+        <button onclick="showPage('about')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">About</button>
+        <button onclick="showPage('find')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Find Us</button>
+      </div>
+      <div class="flex gap-6">
+        <span onclick="handleShare()" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">share</span>
+        <span onclick="showPage('find')" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">location_on</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- =========== PAGE: RESERVE =========== -->
+<div id="page-reserve" class="page">
+  <main class="pt-24 min-h-screen">
+    <section class="relative px-6 md:px-12 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-7xl mx-auto">
+      <div class="lg:col-span-5 space-y-12 reveal-left">
+        <div class="space-y-6">
+          <h1 class="font-headline text-5xl md:text-7xl text-primary leading-tight">Gather Around <br><span class="italic font-normal">the Garden.</span></h1>
+          <p class="text-lg text-outline leading-relaxed max-w-md">Join us for an immersive dining experience where organic textures meet botanical elegance. Reserve your sanctuary in the heart of the city.</p>
+        </div>
+        <div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden rounded-xl group">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8ts4o-qw99RWt8CR5WzQGLCowFtyP9nkAXSFSMOGGZauQV8OiWCSF09Kmz2cCoMZlneEPUiSXbB2_tuNCUEkw71D8gz9Vntu7dO6V7gxGrX-MDimKdO7hxhM_AlN3UdUJndok8_6e708AT2_9BSwKpUXLpB9tQH9K8JcGRmgUc6Gd8hK4kSi8hKztfYxFz80DgP0WjaHBjSzIXEDLGeN_LazRZ2iwztu84DFEKvj7PmbYAGvAbJDs6J2Xb8zPYquSg3q5QGhAU1aL" alt="Cafe interior">
+          <div class="absolute bottom-6 left-6 bg-surface-bright/90 backdrop-blur-md p-6 rounded-lg max-w-[200px]">
+            <span class="font-headline text-2xl text-secondary italic">Private Moments</span>
+            <p class="text-xs text-outline mt-2 tracking-wide uppercase">Secluded booths available for intimate gatherings.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 lg:pl-12 reveal-right">
+        <div class="bg-surface-container-low p-8 md:p-12 rounded-xl">
+          <div class="mb-10 text-center lg:text-left">
+            <h2 class="font-headline text-3xl text-primary mb-2">Make a Reservation</h2>
+            <p class="font-label text-xs uppercase tracking-widest text-outline">Table for the soulful and the curious</p>
+          </div>
+          <div class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-2">
+                <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Arrival Date</label>
+                <input type="date" class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all float-input">
+              </div>
+              <div class="space-y-2">
+                <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Preferred Time</label>
+                <select class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all appearance-none float-input">
+                  <option>09:00 AM</option><option>11:30 AM</option><option>01:00 PM</option>
+                  <option>04:30 PM</option><option>07:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Number of Guests</label>
+              <div class="grid grid-cols-5 gap-2" id="guest-selector">
+                <button type="button" onclick="selectGuests(this)" class="guest-btn py-3 rounded-lg border border-outline-variant hover:border-primary hover:text-primary transition-colors font-label text-sm">1</button>
+                <button type="button" onclick="selectGuests(this)" class="guest-btn active py-3 rounded-lg font-label text-sm">2</button>
+                <button type="button" onclick="selectGuests(this)" class="guest-btn py-3 rounded-lg border border-outline-variant hover:border-primary hover:text-primary transition-colors font-label text-sm">3</button>
+                <button type="button" onclick="selectGuests(this)" class="guest-btn py-3 rounded-lg border border-outline-variant hover:border-primary hover:text-primary transition-colors font-label text-sm">4</button>
+                <button type="button" onclick="selectGuests(this)" class="guest-btn py-3 rounded-lg border border-outline-variant hover:border-primary hover:text-primary transition-colors font-label text-sm">5+</button>
+              </div>
+            </div>
+            <div class="space-y-6 pt-4">
+              <div class="space-y-2">
+                <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Full Name</label>
+                <input type="text" placeholder="e.g. Julian Barnes" class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline/50 float-input">
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-2">
+                  <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Email Address</label>
+                  <input type="email" placeholder="hello@organic.com" class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline/50 float-input">
+                </div>
+                <div class="space-y-2">
+                  <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Phone Number</label>
+                  <input type="tel" placeholder="+91 98765 43210" class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline/50 float-input">
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="font-label text-xs uppercase tracking-widest text-primary font-semibold">Special Requests</label>
+                <textarea placeholder="Dietary requirements or special occasions..." rows="3" class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline/50 float-input"></textarea>
+              </div>
+            </div>
+            <div class="pt-6">
+              <button onclick="showToast('🌿 Your reservation has been confirmed! See you soon at ZIBA.')" class="w-full bg-primary text-on-primary py-5 rounded-lg font-label uppercase tracking-[0.2em] text-sm hover:opacity-90 shadow-xl shadow-primary/10 transition-all active:scale-[0.98]">Confirm Reservation</button>
+              <p class="text-center text-[10px] text-outline mt-4 uppercase tracking-widest">By booking you agree to our 24-hour cancellation policy.</p>
+            </div>
+          </div>
+          <div class="mt-12 flex items-center gap-8">
+            <div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined">local_florist</span></div>
+              <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined">eco</span></div>
+              <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined">filter_vintage</span></div>
+            </div>
+            <div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aesthetic Images -->
+    <section class="py-24 overflow-hidden">
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+        <div class="w-72 aspect-video bg-surface-container rounded-lg overflow-hidden -rotate-3 opacity-80">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOaotpIIa0VDD61ncmMw7RqYZoQvGHtkE1Dsfl5DhNGSejOAtfj-oWQq8gv29DQ5SIVILCSZCNFWJf1iAuQrykAF1_0Zox-v5qN7Wrl4AtwRFRIRHddA8r9DflfRCzQl384pyXS5SBZHwRa-264QFYvOetotQjsdbSbOi96TtkNJkuydhX6EuCFpDAhbmceM9Nl-yI_t0_3AljmSBY-_dqnn5VrMNYfS01MyUwT5rGWBDQH323LuNO3CAkkb_n_HPpzXhWPJLUpTX1" alt="Coffee table">
+        </div>
+        <div class="w-72 aspect-video bg-surface-container rounded-lg overflow-hidden rotate-2">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASzl7C58CFfcOuNxOicneekhUtrNxjXPA6LgaZmoLMCU6UdpG9LYzvivzj_KsBFz546YOs_P_f2Tc1ljVSaj1avq5tHGl7PeHHHZjeHD37dFNsVBUM9AfIBkFy0lPqdKi6RaCgwtecMZjF69wAF-xQwUZZHln3lQbZ90zZ91_RI9_qyYxOYqradiL4sqfbcGe8msBEDe1K_1VCYZzNikUtw310eXcmH5fdaOEb8Y3mnHKXWcE-K-PSUzc9RvccuATxxTk7F1RnDilc" alt="Barista">
+        </div>
+        <div class="w-72 aspect-video bg-surface-container rounded-lg overflow-hidden -rotate-1 opacity-80">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6t_xzPvZ9lP0H49THTkeeX01oSd0bo_3UBujigXl4rX683bIR8uHBi9Yq7yL8VTj9pYgs7gzcG8LPsAqdRdQHSARYep7_QhcFcc24yBGZRkU8Q5pvTuo6fBUxGjSbmklMsIv-VM1pBkdUJmstUJEbIhIY-N5VKAg-HGI6Xg6JLY5FKS4qhVwF9iOMQx4g_vGXE2dknFE1ulISF0Oz0I3ZH6rV9eV0yL_O_04XT4uHrPo5kMgxG68foiSy6CvAh8g8OmgylXyP21pg" alt="Wood texture">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#f0eee9] text-[#17341e] py-16">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8 max-w-screen-2xl mx-auto">
+      <div class="flex flex-col gap-2 text-center md:text-left">
+        <div class="font-headline italic text-lg">ZIBA Cafe</div>
+        <p class="text-sm text-[#727971]">A community rooted in warmth, skill, and the quiet beauty of the Doon Valley.<br>© 2026 ZIBA Cafe.</p>
+      </div>
+      <div class="flex gap-10 text-sm">
+        <button onclick="showPage('home')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Home</button>
+        <button onclick="showPage('menu')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Menu</button>
+        <button onclick="showPage('about')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">About</button>
+        <button onclick="showPage('find')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Find Us</button>
+      </div>
+      <div class="flex gap-6">
+        <span onclick="handleShare()" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">share</span>
+        <span onclick="showPage('find')" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">location_on</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- =========== PAGE: ORDER FOR COLLECTION =========== -->
+<div id="page-order" class="page">
+  <main class="pt-32 pb-24 max-w-7xl mx-auto px-6">
+    <div class="mb-20 text-center reveal">
+      <h1 class="text-5xl md:text-6xl font-headline font-light text-primary mb-6">Menu for Collection</h1>
+      <p class="text-stone-500 font-body uppercase tracking-widest text-xs">Freshly curated. Made for the journey.</p>
+    </div>
+
+    <!-- Category Nav -->
+    <div class="sticky top-[76px] z-40 flex justify-center space-x-6 py-6 mb-12 bg-background/80 backdrop-blur-sm overflow-x-auto no-scrollbar">
+      <a href="#o-coolers" class="whitespace-nowrap text-[11px] uppercase tracking-widest font-semibold text-secondary hover:text-primary transition-colors">Coolers</a>
+      <a href="#o-shakes" class="whitespace-nowrap text-[11px] uppercase tracking-widest font-medium text-stone-400 hover:text-primary transition-colors">Shakes</a>
+      <a href="#o-smoothies" class="whitespace-nowrap text-[11px] uppercase tracking-widest font-medium text-stone-400 hover:text-primary transition-colors">Smoothies</a>
+      <a href="#o-coffee" class="whitespace-nowrap text-[11px] uppercase tracking-widest font-medium text-stone-400 hover:text-primary transition-colors">Coffee</a>
+      <a href="#o-chai" class="whitespace-nowrap text-[11px] uppercase tracking-widest font-medium text-stone-400 hover:text-primary transition-colors">Tea</a>
+      <a href="#o-breads" class="whitespace-nowrap text-[11px] uppercase tracking-widest font-medium text-stone-400 hover:text-primary transition-colors">Breads</a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-7 space-y-24">
+        <!-- Iced Teas & Coolers -->
+        <section class="space-y-8" id="o-coolers">
+          <div class="border-l-2 border-primary-container pl-6 reveal">
+            <h2 class="text-3xl font-headline font-light text-primary">Iced Teas & Coolers</h2>
+          </div>
+          <div class="grid gap-12">
+            <div class="flex justify-between items-start reveal stagger-1">
+              <div class="max-w-[80%]">
+                <h3 class="text-xl text-primary mb-2 font-headline">Hibiscus Berry Cooler</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Our signature botanical blend with dried hibiscus petals and fresh summer berries.</p>
+              </div>
+              <div class="text-right ml-4">
+                <p class="text-secondary font-medium mb-4">₹590</p>
+                <button onclick="addToOrder(this,'Hibiscus Berry Cooler','₹590')" class="px-4 py-2 bg-surface-container-low text-primary text-[10px] uppercase tracking-widest font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Add to Order</button>
+              </div>
+            </div>
+            <div class="flex justify-between items-start reveal stagger-2">
+              <div class="max-w-[80%]">
+                <h3 class="text-xl text-primary mb-2 font-headline">Cucumber Mint Refresher</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Cool garden cucumber slices, fresh mint, and a touch of lime zest.</p>
+              </div>
+              <div class="text-right ml-4">
+                <p class="text-secondary font-medium mb-4">₹560</p>
+                <button onclick="addToOrder(this,'Cucumber Mint Refresher','₹560')" class="px-4 py-2 bg-surface-container-low text-primary text-[10px] uppercase tracking-widest font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Add to Order</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Shakes + Smoothies -->
+        <div class="grid md:grid-cols-2 gap-12">
+          <section class="space-y-8" id="o-shakes">
+            <h2 class="text-2xl font-headline font-light text-primary italic border-b border-outline-variant/15 pb-4 reveal">Shakes</h2>
+            <div class="space-y-10">
+              <div class="reveal stagger-1">
+                <h3 class="text-lg text-primary font-headline">Tahini Cacao Shake</h3>
+                <p class="text-stone-500 text-xs mt-1">Rich nuttiness meet raw chocolate.</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-secondary font-medium">₹695</span>
+                  <button onclick="addToOrder(this,'Tahini Cacao Shake','₹695')" class="text-[9px] uppercase tracking-widest font-bold text-primary hover:text-secondary transition-colors underline underline-offset-4">Add to Order</button>
+                </div>
+              </div>
+              <div class="reveal stagger-2">
+                <h3 class="text-lg text-primary font-headline">Salted Caramel & Oak</h3>
+                <p class="text-stone-500 text-xs mt-1">House-made date caramel and smoked salt.</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-secondary font-medium">₹695</span>
+                  <button onclick="addToOrder(this,'Salted Caramel & Oak','₹695')" class="text-[9px] uppercase tracking-widest font-bold text-primary hover:text-secondary transition-colors underline underline-offset-4">Add to Order</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="space-y-8" id="o-smoothies">
+            <h2 class="text-2xl font-headline font-light text-primary italic border-b border-outline-variant/15 pb-4 reveal">Smoothies</h2>
+            <div class="space-y-10">
+              <div class="reveal stagger-1">
+                <h3 class="text-lg text-primary font-headline">Green Vitality</h3>
+                <p class="text-stone-500 text-xs mt-1">Spinach, green apple, ginger, and spirulina.</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-secondary font-medium">₹720</span>
+                  <button onclick="addToOrder(this,'Green Vitality','₹720')" class="text-[9px] uppercase tracking-widest font-bold text-primary hover:text-secondary transition-colors underline underline-offset-4">Add to Order</button>
+                </div>
+              </div>
+              <div class="reveal stagger-2">
+                <h3 class="text-lg text-primary font-headline">Golden Glow</h3>
+                <p class="text-stone-500 text-xs mt-1">Mango, turmeric, black pepper, and coconut water.</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-secondary font-medium">₹720</span>
+                  <button onclick="addToOrder(this,'Golden Glow','₹720')" class="text-[9px] uppercase tracking-widest font-bold text-primary hover:text-secondary transition-colors underline underline-offset-4">Add to Order</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Coffee & Tea -->
+        <section class="bg-surface-container-low p-10 rounded-xl space-y-10" id="o-coffee">
+          <div class="flex justify-between items-end reveal">
+            <h2 class="text-3xl font-headline font-light text-primary">Coffee & Pots</h2>
+            <span class="text-stone-400 text-[10px] uppercase tracking-[0.2em]">Craft Roasted</span>
+          </div>
+          <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+            <div class="flex justify-between border-b border-outline-variant/15 pb-4 reveal stagger-1">
+              <div><h4 class="text-stone-800 font-headline">Americano</h4></div>
+              <span class="text-secondary font-medium">₹380</span>
+            </div>
+            <div class="flex justify-between border-b border-outline-variant/15 pb-4 reveal stagger-2">
+              <div><h4 class="text-stone-800 font-headline">Latte</h4></div>
+              <span class="text-secondary font-medium">₹460</span>
+            </div>
+            <div class="flex justify-between border-b border-outline-variant/15 pb-4 reveal stagger-3">
+              <div><h4 class="text-stone-800 font-headline">Flat White</h4></div>
+              <span class="text-secondary font-medium">₹435</span>
+            </div>
+            <div class="flex justify-between border-b border-outline-variant/15 pb-4 reveal stagger-4">
+              <div><h4 class="text-stone-800 font-headline">Pour Over</h4></div>
+              <span class="text-secondary font-medium">₹590</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Chai & Breads -->
+        <section class="space-y-8" id="o-chai">
+          <h2 class="text-2xl font-headline font-light text-primary italic border-b border-outline-variant/15 pb-4 reveal" id="o-breads">Chai & Breads</h2>
+          <div class="space-y-10">
+            <div class="flex justify-between items-start reveal stagger-1">
+              <div class="max-w-[80%]">
+                <h3 class="text-xl text-primary mb-2 font-headline">Artisan Chai</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Hand-ground spices with Assam black tea, served hot in a pot.</p>
+              </div>
+              <div class="text-right ml-4">
+                <p class="text-secondary font-medium mb-4">₹505</p>
+                <button onclick="addToOrder(this,'Artisan Chai','₹505')" class="px-4 py-2 bg-surface-container-low text-primary text-[10px] uppercase tracking-widest font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Add to Order</button>
+              </div>
+            </div>
+            <div class="flex justify-between items-start reveal stagger-2">
+              <div class="max-w-[80%]">
+                <h3 class="text-xl text-primary mb-2 font-headline">Avocado Toast</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Sourdough base, smashed avocado, botanical dukkah.</p>
+              </div>
+              <div class="text-right ml-4">
+                <p class="text-secondary font-medium mb-4">₹1,175</p>
+                <button onclick="addToOrder(this,'Avocado Toast','₹1,175')" class="px-4 py-2 bg-surface-container-low text-primary text-[10px] uppercase tracking-widest font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Add to Order</button>
+              </div>
+            </div>
+            <div class="flex justify-between items-start reveal stagger-3">
+              <div class="max-w-[80%]">
+                <h3 class="text-xl text-primary mb-2 font-headline">Ziba Special Brioche</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Honey-whipped ricotta, fresh seasonal berries, lavender syrup.</p>
+              </div>
+              <div class="text-right ml-4">
+                <p class="text-secondary font-medium mb-4">₹1,345</p>
+                <button onclick="addToOrder(this,'Ziba Special Brioche','₹1,345')" class="px-4 py-2 bg-surface-container-low text-primary text-[10px] uppercase tracking-widest font-bold rounded-lg hover:bg-primary hover:text-white transition-all">Add to Order</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="lg:col-span-5">
+        <div class="sticky top-28 bg-surface-container-low p-8 rounded-xl space-y-6 reveal-right">
+          <h3 class="font-headline text-2xl text-primary">Your Order</h3>
+          <div id="order-list" class="space-y-3 min-h-[100px]">
+            <p id="order-empty" class="text-on-surface-variant text-sm italic">No items added yet.</p>
+          </div>
+          <div class="border-t border-outline-variant/20 pt-4">
+            <div class="flex justify-between items-center font-headline text-lg text-primary">
+              <span>Total</span>
+              <span id="order-total">₹0</span>
+            </div>
+          </div>
+          <button onclick="placeOrder()" class="w-full bg-primary text-on-primary py-4 rounded-lg font-label uppercase tracking-widest text-sm hover:opacity-90 transition-all shadow-lg">Place Order</button>
+          <p class="text-[10px] text-outline uppercase tracking-widest text-center">Collection ready in 15–20 minutes</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-[#f0eee9] text-[#17341e] py-16 mt-16">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8 max-w-screen-2xl mx-auto">
+      <div><div class="font-headline italic text-lg">ZIBA Cafe</div><p class="text-sm text-[#727971]">© 2026 ZIBA Cafe.</p></div>
+      <div class="flex gap-10 text-sm">
+        <button onclick="showPage('home')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Home</button>
+        <button onclick="showPage('menu')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Menu</button>
+        <button onclick="showPage('about')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">About</button>
+        <button onclick="showPage('find')" class="text-[#17341e]/70 hover:text-[#805533] transition-all">Find Us</button>
+      </div>
+      <div class="flex gap-6">
+        <span onclick="handleShare()" class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-secondary transition-colors">share</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- =========== PAGE: LOGIN =========== -->
+<div id="page-login" class="page">
+  <main class="min-h-screen flex items-center justify-center relative overflow-hidden px-4 py-12 pt-28">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-cover bg-center opacity-40" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpsiERGOexJrxH05rZzjRjsNtxuk0zPaS9UPVifS9787Cx7p9_ASy0IMdTsOtL-3vP6PZ_x8JoTBbHgyQs9yzOxMvcmhR3YN0hNz7RVe0HOruMEpDcO0vUmykDjvjoehzwbKTiydFreaqy33z-UIWPnxAbXQpOVDV0L1ivZzI5IaQ8EW09B8q0ysX32NTHusYJSBrqXWyHH96BI4PGc3Kxo87QSItKWfKIaSmhR2c1DuldLLiRXny2FhgiM_FCyJbSvLmYhajqA4V_");'></div>
+      <div class="absolute inset-0 bg-gradient-to-tr from-background via-background/90 to-transparent"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-5xl grid md:grid-cols-12 gap-0 overflow-hidden rounded-xl bg-surface-container-lowest/40 backdrop-blur-2xl shadow-[0_12px_40px_rgba(27,28,25,0.06)] reveal">
+      <div class="hidden md:block md:col-span-5 relative min-h-[600px]">
+        <img class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnwFP2KQQyFmDyDxe0taw-eQlgPLhsrWYhABh93oz_vCRzKMs1bTHKjVN0ujNZhJjFA46x4I_0xt9FDFubyw0WA_aP4RKbrNWCxYwXUjsZYAO2QfjK4JFHUBG66OZsmHirBIsYR9NZdP-YfUScbtuC-FsjoDIQSBVpyG_iIRpunwngCe7TpHvOV4Uw14roK8Yph7uulNfcLLZvAeGRlwXAKQFdjVMuQi0p5JqsH07vnsolvjIMrCKoIG4bvIeob40w0Tce6qPux-Pk" alt="Cafe">
+        <div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+        <div class="absolute bottom-12 left-12 right-12 text-on-primary">
+          <p class="font-headline italic text-3xl leading-tight">"A space where nature and craft converge."</p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-7 p-8 md:p-16 flex flex-col justify-center bg-surface-container-lowest">
+        <div class="max-w-sm mx-auto w-full">
+          <header class="mb-10">
+            <h1 class="font-headline text-4xl text-primary mb-2 tracking-tight">Welcome Back</h1>
+            <p class="text-on-surface-variant font-light text-lg">Enter your sanctuary to continue.</p>
+          </header>
+          <div class="space-y-6">
+            <div class="space-y-2">
+              <label class="block text-[10px] uppercase tracking-widest font-bold text-outline">Email Address</label>
+              <input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-1 focus:ring-primary focus:bg-white transition-all duration-300 float-input" placeholder="hello@example.com" type="email">
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="block text-[10px] uppercase tracking-widest font-bold text-outline">Password</label>
+                <a href="#" class="text-[10px] uppercase tracking-widest font-bold text-secondary hover:text-primary transition-colors">Forgot Password?</a>
+              </div>
+              <input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-1 focus:ring-primary focus:bg-white transition-all duration-300 float-input" placeholder="••••••••" type="password">
+            </div>
+            <button onclick="showToast('✓ Welcome back to ZIBA!')" class="w-full bg-primary-container hover:bg-primary text-on-primary py-4 rounded-lg font-medium transition-all duration-300 shadow-md flex items-center justify-center gap-3 group">
+              <span>Sign In to Your Sanctuary</span>
+              <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </button>
+          </div>
+          <div class="mt-10">
+            <div class="relative flex items-center mb-8">
+              <div class="flex-grow border-t border-outline-variant/30"></div>
+              <span class="flex-shrink mx-4 text-[10px] uppercase tracking-[0.2em] text-outline">Or connect with</span>
+              <div class="flex-grow border-t border-outline-variant/30"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <button onclick="handleGoogleAuth()" class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-outline-variant/20 hover:bg-surface-container-low transition-colors duration-300">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span class="text-xs font-semibold">Continue with Google</span>
+              </button>
+              <button onclick="handleAppleAuth()" class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-outline-variant/20 hover:bg-surface-container-low transition-colors duration-300">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4c-1.09-.5-2.08-.48-3.24 0c-1.44.62-2.2.44-3.06-.4C4.22 16.85 3.5 11.58 5.67 8.35c1.07-1.6 2.73-2.58 4.45-2.55c1.33.02 2.3.67 3.12.67c.78 0 2.05-.8 3.53-.65c1.6.17 2.83.82 3.55 1.95c-3.33 1.97-2.8 6.42.53 7.82c-.73 1.83-1.7 3.6-3.8 4.69zM12.03 5.72c-.1-2.23 1.83-4.13 3.97-4.22c.24 2.53-2.28 4.65-3.97 4.22z" fill="currentColor"/>
+                </svg>
+                <span class="text-xs font-semibold">Continue with Apple</span>
+              </button>
+            </div>
+          </div>
+          <p class="mt-12 text-center text-xs text-outline tracking-wide">
+            New to the sanctuary?
+            <button onclick="showPage('signup')" class="text-secondary font-bold ml-1 hover:underline underline-offset-4 decoration-1">Create an Account</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- =========== PAGE: SIGN UP =========== -->
+<div id="page-signup" class="page">
+  <main class="min-h-screen flex items-center justify-center relative overflow-hidden px-4 py-12 pt-28">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-cover bg-center opacity-40" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpsiERGOexJrxH05rZzjRjsNtxuk0zPaS9UPVifS9787Cx7p9_ASy0IMdTsOtL-3vP6PZ_x8JoTBbHgyQs9yzOxMvcmhR3YN0hNz7RVe0HOruMEpDcO0vUmykDjvjoehzwbKTiydFreaqy33z-UIWPnxAbXQpOVDV0L1ivZzI5IaQ8EW09B8q0ysX32NTHusYJSBrqXWyHH96BI4PGc3Kxo87QSItKWfKIaSmhR2c1DuldLLiRXny2FhgiM_FCyJbSvLmYhajqA4V_");'></div>
+      <div class="absolute inset-0 bg-gradient-to-tr from-background via-background/90 to-transparent"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-5xl grid md:grid-cols-12 gap-0 overflow-hidden rounded-xl bg-surface-container-lowest/40 backdrop-blur-2xl shadow-[0_12px_40px_rgba(27,28,25,0.06)] reveal">
+      <div class="hidden md:block md:col-span-5 relative min-h-[600px]">
+        <img class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnwFP2KQQyFmDyDxe0taw-eQlgPLhsrWYhABh93oz_vCRzKMs1bTHKjVN0ujNZhJjFA46x4I_0xt9FDFubyw0WA_aP4RKbrNWCxYwXUjsZYAO2QfjK4JFHUBG66OZsmHirBIsYR9NZdP-YfUScbtuC-FsjoDIQSBVpyG_iIRpunwngCe7TpHvOV4Uw14roK8Yph7uulNfcLLZvAeGRlwXAKQFdjVMuQi0p5JqsH07vnsolvjIMrCKoIG4bvIeob40w0Tce6qPux-Pk" alt="Cafe">
+        <div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+        <div class="absolute bottom-12 left-12 right-12 text-on-primary">
+          <p class="font-headline italic text-3xl leading-tight">"A space where nature and craft converge."</p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-7 p-8 md:p-16 flex flex-col justify-center bg-surface-container-lowest">
+        <div class="max-w-sm mx-auto w-full">
+          <header class="mb-10 text-center md:text-left">
+            <h1 class="font-headline text-4xl text-primary mb-2 tracking-tight">Create Account</h1>
+            <p class="text-on-surface-variant font-light text-lg">Join the ZIBA community for a curated experience.</p>
+          </header>
+          <div class="space-y-6">
+            <div class="space-y-2">
+              <label class="block text-[10px] uppercase tracking-widest font-bold text-outline">Full Name</label>
+              <input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-1 focus:ring-primary focus:bg-white transition-all duration-300 float-input" placeholder="Eleanor Rigby" type="text">
+            </div>
+            <div class="space-y-2">
+              <label class="block text-[10px] uppercase tracking-widest font-bold text-outline">Email Address</label>
+              <input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-1 focus:ring-primary focus:bg-white transition-all duration-300 float-input" placeholder="hello@example.com" type="email">
+            </div>
+            <div class="space-y-2">
+              <label class="block text-[10px] uppercase tracking-widest font-bold text-outline">Password</label>
+              <div class="relative">
+                <input id="signup-password" class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-1 focus:ring-primary focus:bg-white transition-all duration-300 float-input" placeholder="••••••••" type="password">
+                <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary">
+                  <span class="material-symbols-outlined text-[18px]">visibility</span>
+                </button>
+              </div>
+            </div>
+            <button onclick="showToast('🌿 Welcome to the ZIBA community!')" class="w-full bg-primary-container hover:bg-primary text-on-primary py-4 rounded-lg font-medium transition-all duration-300 shadow-md flex items-center justify-center gap-3 group">
+              <span class="uppercase tracking-widest text-xs font-bold">Register Now</span>
+              <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </button>
+          </div>
+          <div class="mt-10">
+            <div class="relative flex items-center mb-8">
+              <div class="flex-grow border-t border-outline-variant/30"></div>
+              <span class="flex-shrink mx-4 text-[10px] uppercase tracking-[0.2em] text-outline">Or join with</span>
+              <div class="flex-grow border-t border-outline-variant/30"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <button onclick="handleGoogleAuth()" class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-outline-variant/20 hover:bg-surface-container-low transition-colors duration-300">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span class="text-xs font-semibold">Continue with Google</span>
+              </button>
+              <button onclick="handleAppleAuth()" class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-outline-variant/20 hover:bg-surface-container-low transition-colors duration-300">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4c-1.09-.5-2.08-.48-3.24 0c-1.44.62-2.2.44-3.06-.4C4.22 16.85 3.5 11.58 5.67 8.35c1.07-1.6 2.73-2.58 4.45-2.55c1.33.02 2.3.67 3.12.67c.78 0 2.05-.8 3.53-.65c1.6.17 2.83.82 3.55 1.95c-3.33 1.97-2.8 6.42.53 7.82c-.73 1.83-1.7 3.6-3.8 4.69zM12.03 5.72c-.1-2.23 1.83-4.13 3.97-4.22c.24 2.53-2.28 4.65-3.97 4.22z" fill="currentColor"/>
+                </svg>
+                <span class="text-xs font-semibold">Continue with Apple</span>
+              </button>
+            </div>
+          </div>
+          <p class="mt-12 text-center text-xs text-outline tracking-wide">
+            Already have an account?
+            <button onclick="showPage('login')" class="text-secondary font-bold ml-1 hover:underline underline-offset-4 decoration-1">Log in here</button>
+          </p>
+          <p class="mt-8 text-center text-[10px] text-outline/60 tracking-widest uppercase">
+            By creating an account, you agree to our <br>
+            <a href="#" class="underline hover:text-primary transition-colors">Privacy Policy</a> &
+            <a href="#" class="underline hover:text-primary transition-colors">Terms of Service</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- =========== JAVASCRIPT =========== -->
+<script>
+// ---- Page Router ----
+const pages = ['home','menu','about','find','reserve','order','login','signup'];
+const navIds = {'home':'nav-home','menu':'nav-menu','about':'nav-about','find':'nav-find'};
+
+function showPage(name) {
+  pages.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) { el.classList.remove('active'); }
+  });
+  // Update nav
+  Object.values(navIds).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  const activePage = document.getElementById('page-' + name);
+  if (activePage) { activePage.classList.add('active'); }
+  if (navIds[name]) {
+    const navEl = document.getElementById(navIds[name]);
+    if (navEl) navEl.classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Trigger reveals
+  setTimeout(initReveal, 100);
+}
+
+// ---- Scroll Reveal ----
+function initReveal() {
+  const revealEls = document.querySelectorAll('.page.active .reveal, .page.active .reveal-left, .page.active .reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+}
+document.addEventListener('DOMContentLoaded', initReveal);
+
+// ---- Toast ----
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ---- Share ----
+function handleShare() {
+  const url = window.location.href;
+  const title = 'ZIBA Cafe – Kandoli, Dehradun';
+  const text = 'Check out ZIBA Cafe – A botanical sanctuary in Dehradun!';
+  if (navigator.share) {
+    navigator.share({ title, text, url }).catch(() => fallbackShare(url));
+  } else {
+    fallbackShare(url);
+  }
+}
+function fallbackShare(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('🔗 Link copied to clipboard!');
+  }).catch(() => {
+    showToast('🔗 Share: ' + url);
+  });
+}
+
+// ---- Auth ----
+function openAuthModal(type) {
+  showPage(type === 'login' ? 'login' : 'signup');
+}
+function handleGoogleAuth() {
+  showToast('🔐 Redirecting to Google Sign-In...');
+}
+function handleAppleAuth() {
+  showToast('🍎 Redirecting to Apple Sign-In...');
+}
+
+// ---- Mobile Menu ----
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  menu.classList.toggle('open');
+}
+
+// ---- Guest Selector ----
+function selectGuests(btn) {
+  document.querySelectorAll('.guest-btn').forEach(b => {
+    b.classList.remove('active');
+    b.classList.add('border', 'border-outline-variant');
+  });
+  btn.classList.add('active');
+  btn.classList.remove('border', 'border-outline-variant');
+}
+
+// ---- Password Toggle ----
+function togglePassword() {
+  const input = document.getElementById('signup-password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// ---- Order for Collection ----
+let orderItems = [];
+function addToOrder(btn, name, price) {
+  const numericPrice = parseInt(price.replace(/[^\d]/g, ''));
+  orderItems.push({ name, price: numericPrice });
+  btn.textContent = '✓ Added';
+  btn.classList.add('bg-primary', 'text-white');
+  setTimeout(() => { btn.textContent = 'Add to Order'; btn.classList.remove('bg-primary','text-white'); }, 2000);
+  renderOrder();
+}
+function renderOrder() {
+  const list = document.getElementById('order-list');
+  const empty = document.getElementById('order-empty');
+  const totalEl = document.getElementById('order-total');
+  if (orderItems.length === 0) {
+    list.innerHTML = '<p id="order-empty" class="text-on-surface-variant text-sm italic">No items added yet.</p>';
+    totalEl.textContent = '₹0';
+    return;
+  }
+  const grouped = {};
+  orderItems.forEach(item => { grouped[item.name] = (grouped[item.name] || 0) + item.price; });
+  let html = '';
+  Object.entries(grouped).forEach(([name, price]) => {
+    html += `<div class="flex justify-between text-sm font-body text-on-surface"><span>${name}</span><span class="text-secondary font-medium">₹${price.toLocaleString('en-IN')}</span></div>`;
+  });
+  list.innerHTML = html;
+  const total = orderItems.reduce((sum, i) => sum + i.price, 0);
+  totalEl.textContent = '₹' + total.toLocaleString('en-IN');
+}
+function placeOrder() {
+  if (orderItems.length === 0) { showToast('Add items to your order first!'); return; }
+  orderItems = [];
+  renderOrder();
+  showToast('✓ Order placed! Ready in 15–20 minutes.');
+}
+
+// ---- Nav scroll effect ----
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('main-nav');
+  if (window.scrollY > 50) {
+    nav.style.boxShadow = '0 2px 20px rgba(27,28,25,0.06)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+});
+
+// Init
+showPage('home');
+</script>
+</body>
+</html>
